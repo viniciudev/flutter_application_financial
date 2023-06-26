@@ -9,7 +9,7 @@ class FinancialRepository {
 
   Future<dynamic> post(map) async {
     return await apiClient.request(
-        url: 'financialClient/PostApp', method: Method.POST, params: map);
+        url: 'financial', method: Method.POST, params: map);
   }
 
   Future<dynamic> getByMonth(map) async {
