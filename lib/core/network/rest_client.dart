@@ -29,9 +29,7 @@ class RestClient extends GetxService {
 
   Future initInterceptors(int idCompany, String token) async {
     _dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
-      if (options.headers['tenantid'] == null) {
-        options.headers['tenantid'] = idCompany;
-      }
+      options.headers['tenantid'] = idCompany;
       // options.headers['Authorization'] = 'Bearer $token';
       options.connectTimeout = 5000;
       return handler.next(options);
@@ -42,23 +40,17 @@ class RestClient extends GetxService {
     }));
   }
 
-  Future<dynamic> request(
-      {required String url,
-      required Method method,
-      Map<String, dynamic>? params,
-      List<Map>? paramsList,
-      FormData? formData,
-      int? tenantid}) async {
+  Future<dynamic> request({
+    required String url,
+    required Method method,
+    Map<String, dynamic>? params,
+    List<Map>? paramsList,
+    FormData? formData,
+  }) async {
     Response response;
 
     try {
       url = ApiEndpoints.apod(url);
-
-      if (tenantid != null) {
-        _dio.options.headers['tenantid'] = tenantid;
-      } else {
-        _dio.options.headers['tenantid'] = null;
-      }
       if (method == Method.POST) {
         if (formData != null) {
           response = await _dio.post(

@@ -7,9 +7,9 @@ import 'package:month_year_picker/month_year_picker.dart';
 import 'core/network/rest_client.dart';
 import 'features/routes/app_routes.dart';
 
-void main() {
+void main() async{
   final RestClient restClient = Get.put(RestClient());
-  
+  await restClient.init(1,'');
   runApp(const MyApp());
 }
 

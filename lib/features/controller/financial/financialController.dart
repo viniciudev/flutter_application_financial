@@ -75,18 +75,11 @@ class FinancialController extends GetxController {
   getByMonth(int pageNumber, int pageSize) async {
     DateTime date = dateTimeSelected;
     Map<String, dynamic> map = {
-      'initialDate': initialDateFilter.isNotEmpty
-          ? DateFormat('dd-MM-yyyy').parse(initialDateFilter).toIso8601String()
-          : DateTime(date.year, date.month).toIso8601String(),
-      'finalDate': finalDateFilter.isNotEmpty
-          ? DateFormat('dd-MM-yyyy').parse(finalDateFilter).toIso8601String()
-          : DateTime(
-              date.year,
-              date.month,
-            ).add(const Duration(days: 30)).toIso8601String(),
-      'idCostCenter': idCostCenterFilter,
-      'description': descriptionFilter.text,
-      'type': typeFinancialFilter.isEmpty ? 0 : typeFinancialFilter,
+      'saleDate': DateTime(date.year, date.month).toIso8601String(),
+      'saleDateFinal': DateTime(
+        date.year,
+        date.month,
+      ).add(const Duration(days: 30)).toIso8601String(),
       'pageNumber': pageNumber,
       'pageSize': pageSize
     };
@@ -148,8 +141,6 @@ class FinancialController extends GetxController {
     update();
   }
 
- 
-
   // List<FormOfPayment> getListFormPayment = <FormOfPayment>[];
   // consultFormOfPayment() async {
   //   await repository
@@ -171,9 +162,9 @@ class FinancialController extends GetxController {
     await Get.toNamed(Routes.ADDFINANCEACCOUNT, arguments: {'data': financial});
   }
 
-  Future<dynamic> editFinanceAccount(id) async {
-    await fetchToEdit(id);
-    await fillFields();
+  Future<dynamic> editFinanceAccount(e) async {
+    // await fetchToEdit(id);
+    await fillFields(e);
     await Get.toNamed(Routes.ADDFINANCEACCOUNT, arguments: {'data': financial});
   }
 
@@ -209,12 +200,12 @@ class FinancialController extends GetxController {
   }
 
   Financial financial = Financial();
-  fetchToEdit(id) async {
-    await repository
-        .fetchToEdit(id)
-        .then((value) => {financial = Financial.fromMap(value)})
-        .catchError((onError) => print(onError));
-  }
+  // fetchToEdit(id) async {
+  //   await repository
+  //       .fetchToEdit(id)
+  //       .then((value) => {financial = Financial.fromMap(value)})
+  //       .catchError((onError) => print(onError));
+  // }
 
   int idFinancial = 0;
   int idCostCenter = 0;
@@ -226,7 +217,7 @@ class FinancialController extends GetxController {
   final TextEditingController controllerFines = TextEditingController();
   int idPayment = 1;
 
-  fillFields() async {
+  fillFields(financial) async {
     idFinancial = financial.id;
     final formatter = NumberFormat.currency(locale: "eu", symbol: '');
     controllerValue.text = formatter.format(financial.value);
@@ -235,8 +226,8 @@ class FinancialController extends GetxController {
     controllerDueDate.text =
         formatterDate.format(DateTime.parse(financial.dueDate));
     idPayment = financial.paymentType;
-    idCostCenter = financial.idCostCenter;
-    if (financial.paymentType == TypeFinancial.receita) {
+    // idCostCenter = financial.idCostCenter;
+    if (financial.financialType == TypeFinancial.receita) {
       groupValueRadio = 0;
       colorContainer = Colors.green.shade400;
       colorTextButtom = Colors.green;
@@ -326,8 +317,8 @@ class FinancialController extends GetxController {
 }
 
 class TypeFinancial {
-  static int receita = 1;
-  static int despesa = 2;
+  static int receita = 0;
+  static int despesa = 1;
 }
 
 extension Iterables<E> on Iterable<E> {

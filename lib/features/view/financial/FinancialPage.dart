@@ -36,13 +36,13 @@ class FinancialPage extends GetView<FinancialController> {
                 controller.fetchPage();
               }
             });
-            Map<String, dynamic> map = {
-              'initialDate': dateCalendar.toIso8601String(),
-              'finalDate': dateCalendar.toIso8601String()
-            };
+            // Map<String, dynamic> map = {
+            //   'initialDate': dateCalendar.toIso8601String(),
+            //   'finalDate': dateCalendar.toIso8601String()
+            // };
             // await controller.getByYearSummary(map);
             // await controller.getByMonthSummary(map);
-            // await controller.fetchPageInit(1);
+            await controller.fetchPageInit(1);
           },
           builder: (_) {
             return LoadingOverlay(
@@ -186,13 +186,13 @@ class FinancialPage extends GetView<FinancialController> {
               child: Column(
                 children: [
                   const Text(
-                    "Saldo Atual",
+                    "Total Receitas",
                     style: TextStyle(color: Colors.white),
                   ),
                   Text(
                     "R\$${formatterCurrency.format(_currentBalance(controller))}",
                     style: const TextStyle(
-                        color: Colors.green, fontWeight: FontWeight.bold),
+                        color: Colors.greenAccent, fontWeight: FontWeight.bold),
                   )
                 ],
               ),
@@ -212,13 +212,14 @@ class FinancialPage extends GetView<FinancialController> {
               child: Column(
                 children: [
                   const Text(
-                    "Balanço Mensal",
+                    "Total Despesas",
                     style: TextStyle(color: Colors.white),
                   ),
                   Text(
-                    "R\$${formatterCurrency.format(0)}",
-                    style: const TextStyle(
-                        color: Colors.green, fontWeight: FontWeight.bold),
+                    "R\$${formatterCurrency.format(_currentExpenses(controller))}",
+                    style: TextStyle(
+                        color: Colors.red.shade400,
+                        fontWeight: FontWeight.bold),
                   )
                 ],
               ),
@@ -259,7 +260,7 @@ class FinancialPage extends GetView<FinancialController> {
                         SlidableAction(
                           onPressed: (context) {
                             controller
-                                .editFinanceAccount(e.id)
+                                .editFinanceAccount(e)
                                 .then((value) => controller.fetchPageInit(1));
                           },
                           backgroundColor: Colors.orange,
@@ -276,7 +277,7 @@ class FinancialPage extends GetView<FinancialController> {
                                 color: Colors.white70, width: 1),
                             borderRadius: BorderRadius.circular(7),
                           ),
-                          child: e.paymentType == TypeFinancial.receita
+                          child: e.financialType == TypeFinancial.receita
                               ? const Icon(
                                   Icons.arrow_downward_rounded,
                                   color: Colors.green,
@@ -286,7 +287,7 @@ class FinancialPage extends GetView<FinancialController> {
                                   color: Colors.red,
                                 )),
                       title: Text(e.description),
-                      trailing: e.paymentType == TypeFinancial.receita
+                      trailing: e.financialType == TypeFinancial.receita
                           ? Text(
                               "+ "
                               "R\$${formatterCurrency.format(e.value)}",
@@ -320,15 +321,28 @@ class FinancialPage extends GetView<FinancialController> {
 
   _currentBalance(FinancialController _) {
     double resultBalance = 0;
-    // for (var element in _.getListSummary) {
-    //   resultBalance += element.totalBalance;
-    // }
+    for (var element in _.getAllListAppend) {
+      if (element.financialType == TypeFinancial.receita) {
+        resultBalance += element.value;
+      }
+    }
+
+    return resultBalance;
+  }
+
+  _currentExpenses(FinancialController _) {
+    double resultBalance = 0;
+    for (var element in _.getAllListAppend) {
+      if (element.financialType == TypeFinancial.despesa) {
+        resultBalance += element.value;
+      }
+    }
 
     return resultBalance;
   }
 }
 
 class TypeFinancial {
-  static int receita = 1;
-  static int despesa = 2;
+  static int receita = 0;
+  static int despesa = 1;
 }
