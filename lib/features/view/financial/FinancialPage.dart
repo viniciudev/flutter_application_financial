@@ -36,12 +36,7 @@ class FinancialPage extends GetView<FinancialController> {
                 controller.fetchPage();
               }
             });
-            // Map<String, dynamic> map = {
-            //   'initialDate': dateCalendar.toIso8601String(),
-            //   'finalDate': dateCalendar.toIso8601String()
-            // };
-            // await controller.getByYearSummary(map);
-            // await controller.getByMonthSummary(map);
+            
             await controller.fetchPageInit(1);
           },
           builder: (_) {
@@ -56,8 +51,6 @@ class FinancialPage extends GetView<FinancialController> {
                     SliverAppBar(
                         title: const Text('Transações'),
                         expandedHeight: 150,
-
-                        // actions: actionsButton(),
                         flexibleSpace: FlexibleSpaceBar(
                             background: Container(
                                 padding: const EdgeInsets.only(
@@ -78,7 +71,6 @@ class FinancialPage extends GetView<FinancialController> {
                 ));
           }),
       floatingActionButton: FloatingActionButton(
-        // backgroundColor: TemeColor.buttons,
         heroTag: null,
         onPressed: () {
           controller
@@ -91,40 +83,8 @@ class FinancialPage extends GetView<FinancialController> {
     );
   }
 
-  // List<Widget> actionsButton() {
-  //   return [
-  //     IconButton(
-  //         isSelected: false,
-  //         onPressed: () {
-  //           Get.toNamed(Routes.FINANCIALOVERVIEW);
-  //         },
-  //         icon: const Icon(LineIcons.stream, color: Colors.white)),
-  //     GetBuilder<FinancialController>(
-  //       builder: (_) => (_.contFilters > 0
-  //           ? b.Badge(
-  //               position: b.BadgePosition.bottomStart(bottom: 8, start: 2),
-  //               badgeColor: Colors.white,
-  //               badgeContent: Text('${_.contFilters}'),
-  //               child: IconButton(
-  //                   color: Colors.white,
-  //                   onPressed: () {
-  //                     Get.toNamed(Routes.FILTERFINANCIAL);
-  //                   },
-  //                   icon: const Icon(Icons.tune)),
-  //             )
-  //           : IconButton(
-  //               color: Colors.white,
-  //               onPressed: () {
-  //                 Get.toNamed(Routes.FILTERFINANCIAL);
-  //               },
-  //               icon: const Icon(Icons.tune))),
-  //     )
-  //   ];
-  // }
-
   tableCalendar() {
     return SizedBox(
-      // color: TemeColor.backgroud,
       height: 50,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
@@ -135,8 +95,6 @@ class FinancialPage extends GetView<FinancialController> {
               'initialDate': DateTime(date.year, date.month, date.day),
               'finalDate': DateTime(date.year, date.month, date.day)
             };
-            // await controller.getByYearSummary(map);
-            // await controller.getByMonthSummary(map);
             controller.dateTimeSelected = date;
             controller.fetchPageInit(1);
           },
@@ -309,13 +267,6 @@ class FinancialPage extends GetView<FinancialController> {
   }
 
   _updateValues() async {
-    Map<String, dynamic> map = {
-      'initialDate': DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day)
-    };
-
-    // await controller.getByYearSummary(map);
-    // await controller.getByMonthSummary(map);
     await controller.fetchPageInit(1);
   }
 

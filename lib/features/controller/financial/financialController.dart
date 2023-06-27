@@ -10,11 +10,6 @@ class FinancialController extends GetxController {
   final FinancialRepository repository;
   FinancialController({required this.repository});
   DateTime dateTimeSelected = DateTime.now();
-  String initialDateFilter = '';
-  String finalDateFilter = '';
-  final TextEditingController descriptionFilter = TextEditingController();
-  int idCostCenterFilter = 0;
-  String typeFinancialFilter = '';
 
   int groupValueRadio = 0;
   Color colorContainer = Colors.green.shade400;
@@ -91,121 +86,17 @@ class FinancialController extends GetxController {
         .catchError((error) => {print(error)});
   }
 
-  // final _getListSummary = <FinancialSummary>[].obs;
-  // List<FinancialSummary> get getListSummary => _getListSummary.value;
-  // set getListSummary(value) => _getListSummary.value = value;
-
-  // getByYearSummary(map) async {
-  //   await repository
-  //       .getByYearSummary(map)
-  //       .then((value) => {
-  //             getListSummary = FinancialSummary.fromJsonList(value),
-  //           })
-  //       .catchError((e) => print(e));
-  // }
-
-  // final _getSummary = FinancialSummary(
-  //         id: 0,
-  //         idClinic: 0,
-  //         month: 0,
-  //         year: 0,
-  //         outputValue: 0,
-  //         inputValue: 0,
-  //         totalBalance: 0)
-  //     .obs;
-  // FinancialSummary get getSummary => _getSummary.value;
-  // set getSummary(value) => _getSummary.value = value;
-
-  // getByMonthSummary(map) async {
-  //   await repository
-  //       .getByMonthSummary(map)
-  //       .then((value) =>
-  //           {getSummary = FinancialSummary.fromJson(value), update()})
-  //       .catchError((e) => print(e));
-  // }
-
-  RxInt contFilters = 0.obs;
-  addCont(RxInt cont) {
-    contFilters = cont;
-    update();
-  }
-
-  String groupValueRadioFilter = '';
-  selectRadioFilter(String value) {
-    typeFinancialFilter = value;
-    update();
-  }
-
-  delCont() {
-    contFilters = 0.obs;
-    update();
-  }
-
-  // List<FormOfPayment> getListFormPayment = <FormOfPayment>[];
-  // consultFormOfPayment() async {
-  //   await repository
-  //       .getFormPayment()
-  //       .then((value) => {
-  //             getListFormPayment = FormOfPayment.fromJsonList(value),
-  //           })
-  //       .catchError((onError) => {});
-  //   controllerTax.text = financial.tax == 0
-  //       ? getListFormPayment.isNotEmpty
-  //           ? getListFormPayment[0].taxValue.toString()
-  //           : ''
-  //       : financial.tax.toString();
-  //   update();
-  // }
-
   Future<dynamic> addFinanceAccount() async {
     await clearFields();
     await Get.toNamed(Routes.ADDFINANCEACCOUNT, arguments: {'data': financial});
   }
 
   Future<dynamic> editFinanceAccount(e) async {
-    // await fetchToEdit(id);
     await fillFields(e);
     await Get.toNamed(Routes.ADDFINANCEACCOUNT, arguments: {'data': financial});
   }
 
-  // final _getListAccounts = <Accounts>[].obs;
-  // List<Accounts> get getListAccounts => _getListAccounts.value;
-  // set getListAccounts(value) => _getListAccounts.value = value;
-
-  // searchListToPrint() async {
-  //   Map<String, dynamic> map = {
-  //     'initialDate': initialDateFilter.isNotEmpty
-  //         ? DateFormat('dd-MM-yyyy').parse(initialDateFilter).toIso8601String()
-  //         : DateTime.now().toIso8601String(),
-  //     'finalDate': finalDateFilter.isNotEmpty
-  //         ? DateFormat('dd-MM-yyyy').parse(finalDateFilter).toIso8601String()
-  //         : DateTime.now().toIso8601String(),
-  //     'idCostCenter': idCostCenterFilter,
-  //     'description': descriptionFilter.text,
-  //     'type': typeFinancialFilter.isEmpty ? 0 : typeFinancialFilter
-  //   };
-  //   await repository
-  //       .searchListToPrint(map)
-  //       .then((value) => {
-  //             getListAccounts = Accounts.fromJsonList(value),
-  //             loadFilters(false.obs)
-  //           })
-  //       .catchError((error) => {loadFilters(false.obs)});
-  // }
-
-  RxBool isLoadingFilters = false.obs;
-  loadFilters(RxBool value) {
-    isLoadingFilters = value;
-    update();
-  }
-
   Financial financial = Financial();
-  // fetchToEdit(id) async {
-  //   await repository
-  //       .fetchToEdit(id)
-  //       .then((value) => {financial = Financial.fromMap(value)})
-  //       .catchError((onError) => print(onError));
-  // }
 
   int idFinancial = 0;
   int idCostCenter = 0;
@@ -226,7 +117,6 @@ class FinancialController extends GetxController {
     controllerDueDate.text =
         formatterDate.format(DateTime.parse(financial.dueDate));
     idPayment = financial.paymentType;
-    // idCostCenter = financial.idCostCenter;
     if (financial.financialType == TypeFinancial.receita) {
       groupValueRadio = 0;
       colorContainer = Colors.green.shade400;

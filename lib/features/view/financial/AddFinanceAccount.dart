@@ -14,7 +14,6 @@ import '../../model/formPayment.dart';
 
 class AddFinanceAccountPage extends GetView<FinancialController> {
   var formatter = DateFormat('dd-MM-yyyy');
-  bool edit = false;
   final _formKey = GlobalKey<FormState>();
   late Financial financial;
   AddFinanceAccountPage({super.key});
@@ -25,8 +24,6 @@ class AddFinanceAccountPage extends GetView<FinancialController> {
     return GetBuilder<FinancialController>(initState: (state) async {
       controller.controllerDueDate.text =
           DateFormat("dd-MM-yyyy").format(DateTime.now());
-      // await controller.consultCostCenter();
-      // await controller.consultFormOfPayment();
     }, builder: (_) {
       return LoadingOverlay(
         isLoading: _.isLoading.value,
@@ -207,17 +204,6 @@ class AddFinanceAccountPage extends GetView<FinancialController> {
       },
     );
   }
-      // validator: (item) {
-      //   if (item == null) {
-      //     return 'Campo Obrigatório';
-      //   } else {
-      //     return null;
-      //   }
-      // },
-    // );
-  // }
-
-
 
   _inputDecoration(BuildContext context, String labeText, String hintText) {
     double width = MediaQuery.of(context).size.width;
@@ -278,11 +264,7 @@ class AddFinanceAccountPage extends GetView<FinancialController> {
         map['origin']=1;
     await _.load(true.obs);
     await _.postFinancial(map, controller.idFinancial);
-    // Map<String, dynamic> mapdate = {
-    //   'initialDate': DateTime.now().toIso8601String()
-    // };
-    // await _.getByYearSummary(mapdate);
-    // await _.getByMonthSummary(mapdate);
+
     if (_.post == true) Get.back();
   }
 
@@ -314,5 +296,4 @@ class AddFinanceAccountPage extends GetView<FinancialController> {
             )));
   }
 
-  
 }
