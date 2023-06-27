@@ -2,6 +2,12 @@
 
 A new Flutter project.
 
+Tela inicial mostra movimentos de entrada e saída agrupados e paginados.
+![Captura de tela 2023-06-26 174344](https://github.com/viniciudev/flutter_application_financial/assets/137787628/234e9517-7436-4ce3-84a8-206d568f8af1)
+
+A tela contém opção de excluir e editar a parcela
+![Captura de tela 2023-06-26 174406](https://github.com/viniciudev/flutter_application_financial/assets/137787628/452f2bb3-bda9-4f00-a9ec-bd61953d1ad3)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
