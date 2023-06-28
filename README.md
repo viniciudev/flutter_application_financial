@@ -3,13 +3,16 @@
 A new Flutter project.
 
 Tela inicial mostra movimentos de entrada e saída agrupados e paginados.
-![Captura de tela 2023-06-26 174344](https://github.com/viniciudev/flutter_application_financial/assets/137787628/234e9517-7436-4ce3-84a8-206d568f8af1)
+![image](https://github.com/viniciudev/flutter_application_financial/assets/137787628/3a8c017e-e6fc-4438-9c20-e5217e71a72a)
+
 
 A tela contém opção de excluir e editar a parcela
-![Captura de tela 2023-06-26 174406](https://github.com/viniciudev/flutter_application_financial/assets/137787628/452f2bb3-bda9-4f00-a9ec-bd61953d1ad3)
+![image](https://github.com/viniciudev/flutter_application_financial/assets/137787628/8e5429ff-772a-426f-9e9b-56278c3a28a2)
+
 
 A tela de adicionar parcela contém campos basicos para preencher, receita fica verde e despesa vermelho
-![duas](https://github.com/viniciudev/flutter_application_financial/assets/137787628/4a0f74cc-2cc6-4139-bebb-179c08ca9880)
+![image](https://github.com/viniciudev/flutter_application_financial/assets/137787628/747949e9-facc-401e-a8ed-d3046f2c5178)
+
 
 ## Getting Started
 
