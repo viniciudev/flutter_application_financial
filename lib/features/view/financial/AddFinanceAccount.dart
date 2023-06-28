@@ -27,7 +27,7 @@ class AddFinanceAccountPage extends GetView<FinancialController> {
     }, builder: (_) {
       return LoadingOverlay(
         isLoading: _.isLoading.value,
-        progressIndicator: CircularProgressIndicator(),
+        progressIndicator: const CircularProgressIndicator(),
         child: Scaffold(
           appBar: AppBar(
             // backgroundColor: TemeColor.backgroud,
@@ -95,6 +95,9 @@ class AddFinanceAccountPage extends GetView<FinancialController> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Expanded(child: _closePopup()),
+                        const SizedBox(
+                          width: 10,
+                        ),
                         Expanded(child: _confirmFinancial(_))
                       ],
                     ),
@@ -185,14 +188,14 @@ class AddFinanceAccountPage extends GetView<FinancialController> {
   }
 
   _fieldPaymentType(BuildContext context) {
-   List<FormOfPayment> list = [
+    List<FormOfPayment> list = [
       FormOfPayment(name: 'Dinheiro', value: 0),
       FormOfPayment(name: 'Cartão', value: 1),
     ];
 
     return DropdownButtonFormField(
       value: list[controller.idPayment],
-      decoration: _inputDecoration(context,'Tipo Agendamento', ''),
+      decoration: _inputDecoration(context, 'Forma pagamento', ''),
       items: list.map(
         (val) {
           return DropdownMenuItem<FormOfPayment>(
@@ -243,7 +246,7 @@ class AddFinanceAccountPage extends GetView<FinancialController> {
 
   _saveFinancial(FinancialController _) async {
     final formatter = DateFormat('dd-MM-yyyy');
-    final date = formatter.parse(controller. controllerDueDate.text);
+    final date = formatter.parse(controller.controllerDueDate.text);
 
     var data = jsonEncode(controller.financial);
     var dataDecode = jsonDecode(data);
@@ -253,15 +256,13 @@ class AddFinanceAccountPage extends GetView<FinancialController> {
         _.groupValueRadio == 0 ? TypeFinancial.receita : TypeFinancial.despesa;
     map['description'] = controller.controllerDescription.text;
     map['value'] = DoubleFormatter().formatter(controller.controllerValue.text);
-    map['paymentType'] = controller.idPayment == 0
-        ? 0
-        : controller.idPayment;
+    map['paymentType'] = controller.idPayment == 0 ? 0 : controller.idPayment;
     map['dueDate'] = date.toIso8601String();
     map['idCostCenter'] = 1;
     map['creationDate'] = controller.idFinancial == 0
         ? DateTime.now().toIso8601String()
         : map['creationDate'];
-        map['origin']=1;
+    map['origin'] = 1;
     await _.load(true.obs);
     await _.postFinancial(map, controller.idFinancial);
 
@@ -270,6 +271,12 @@ class AddFinanceAccountPage extends GetView<FinancialController> {
 
   _closePopup() {
     return TextButton(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ))),
         onPressed: () {
           Get.back();
         },
@@ -295,5 +302,4 @@ class AddFinanceAccountPage extends GetView<FinancialController> {
               fontWeight: FontWeight.bold,
             )));
   }
-
 }
